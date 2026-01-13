@@ -36,3 +36,5 @@ The booking could be constructed as a single transaction with a try cath to allo
 Testing is limited to services,  controllers and validators . There may be further tests required for a production-ready application, including integration tests and end-to-end tests to ensure the entire booking process works as expected.
 The application currently does not handle time zones. All date and time values are assumed to be in the server's local time zone. For a production application, it would be important to standardize on a specific time zone (e.g., UTC) and convert all date and time values accordingly to avoid issues with bookings across different time zones.
 The application uses dependency injection to manage service lifetimes and dependencies. Services such as the DbContext, repositories, and business logic services are registered in the Startup.cs file.
+
+Further validation including splitting the address into validated fields populated and validated via a postcode/address lookup service would be needed for a production-ready application.

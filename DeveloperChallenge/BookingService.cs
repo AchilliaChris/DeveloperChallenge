@@ -93,7 +93,7 @@ namespace DeveloperChallenge
             {
                 totalPrice += room.PricePerNight * numberOfDays;
             }
-            var bookingReference = GenerateBookingReference();
+            var bookingReference = GetBookingReference();
             bookingResponse.BookingReference = bookingReference;
             bookingResponse.CustomerName = $"{BookingRequest.Customer.FirstName} {BookingRequest.Customer.LastName}";
             bookingResponse.TotalPrice = totalPrice;
@@ -183,6 +183,16 @@ namespace DeveloperChallenge
                 context.SaveChanges();
             }
             return customer;
+        }
+
+        private string GetBookingReference()
+        {
+            string bookingReference = GenerateBookingReference();
+            while (context.Bookings.Any(b => b.BookingReference == bookingReference))
+            {
+                bookingReference = GenerateBookingReference();
+            }
+            return bookingReference;
         }
         private string GenerateBookingReference()
         {
