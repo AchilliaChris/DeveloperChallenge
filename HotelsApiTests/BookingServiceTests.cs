@@ -35,7 +35,7 @@ namespace HotelsApiTests
             var hotel = new Hotel { Name = "TestHotel", Address = "Addr", Phone = "123" };
             context.Hotels.Add(hotel);
             context.SaveChanges();
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 101, PricePerNight = 50.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 101, PricePerNight = 50.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -75,9 +75,9 @@ namespace HotelsApiTests
             // Verify DB state
             var bookingInDb = context.Bookings.Include(b => b.RoomBookings).FirstOrDefault();
             Assert.NotNull(bookingInDb);
-            Assert.Single(context.RoomBookings.Where(rb => rb.BookingId == bookingInDb.Id));
+            Assert.Single(context.RoomBookings.Where(rb => rb.Booking_Id == bookingInDb.BookingId));
             Assert.Single(context.Customers.Where(c => c.Email == "john@example.com"));
-            Assert.Single(context.GuestBookings.Where(g => g.RoomBookingId == context.RoomBookings.First().Id));
+            Assert.Single(context.GuestBookings.Where(g => g.RoomBooking_Id == context.RoomBookings.First().Room_Id));
         }
 
         [Fact]
@@ -115,15 +115,15 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 200, PricePerNight = 80.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 200, PricePerNight = 80.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
-            var booking = new Booking { CustomerId = customer.Id, BookingReference = "MAP-REF", TotalPrice = 160.0 };
+            var booking = new Booking { Customer_Id = customer.CustomerId, BookingReference = "MAP-REF", TotalPrice = 160.0 };
             context.Bookings.Add(booking);
             context.SaveChanges();
 
-            var roomBooking = new RoomBooking { BookingId = booking.Id, RoomId = room.Id, StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(2) };
+            var roomBooking = new RoomBooking { Booking_Id = booking.BookingId, Room_Id = room.RoomId, StartDate = DateTime.Today.AddDays(1), EndDate = DateTime.Today.AddDays(2) };
             context.RoomBookings.Add(roomBooking);
             context.SaveChanges();
 
@@ -131,7 +131,7 @@ namespace HotelsApiTests
             context.Customers.Add(guest);
             context.SaveChanges();
 
-            var guestBooking = new GuestBooking { RoomBookingId = roomBooking.Id, GuestId = guest.Id };
+            var guestBooking = new GuestBooking { RoomBooking_Id = roomBooking.RoomBookingId, GuestId = guest.CustomerId };
             context.GuestBookings.Add(guestBooking);
             context.SaveChanges();
 
@@ -176,7 +176,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 10, PricePerNight = 20.0, Capacity = 1 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 10, PricePerNight = 20.0, Capacity = 1 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -224,7 +224,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -233,14 +233,14 @@ namespace HotelsApiTests
             context.Customers.Add(customer);
             context.SaveChanges();
 
-            var booking = new Booking { CustomerId = customer.Id, BookingReference = "OLD", TotalPrice = 60.0 };
+            var booking = new Booking { Customer_Id = customer.CustomerId, BookingReference = "OLD", TotalPrice = 60.0 };
             context.Bookings.Add(booking);
             context.SaveChanges();
 
             var existingRoomBooking = new RoomBooking
             {
-                BookingId = booking.Id,
-                RoomId = room.Id,
+                Booking_Id = booking.BookingId,
+                Room_Id = room.RoomId,
                 StartDate = DateTime.Today.AddDays(2),
                 EndDate = DateTime.Today.AddDays(4)
             };
@@ -275,8 +275,8 @@ namespace HotelsApiTests
             var resp = await service.CreateBooking(request);
 
             // Code rejects an additional RoomBooking which overlaps
-            Assert.Null( resp.bookingResponse.BookingReference);
-            var createdRoomBookings = context.RoomBookings.Count(rb => rb.RoomId == room.Id);
+            Assert.Null(resp.bookingResponse.BookingReference);
+            var createdRoomBookings = context.RoomBookings.Count(rb => rb.Room_Id == room.RoomId);
             Assert.Equal(1, createdRoomBookings); // old only
             Assert.Contains("Room not available", resp.message);
         }
@@ -292,7 +292,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -301,14 +301,14 @@ namespace HotelsApiTests
             context.Customers.Add(customer);
             context.SaveChanges();
 
-            var booking = new Booking { CustomerId = customer.Id, BookingReference = "OLD", TotalPrice = 60.0 };
+            var booking = new Booking { Customer_Id = customer.CustomerId, BookingReference = "OLD", TotalPrice = 60.0 };
             context.Bookings.Add(booking);
             context.SaveChanges();
 
             var existingRoomBooking = new RoomBooking
             {
-                BookingId = booking.Id,
-                RoomId = room.Id,
+                Booking_Id = booking.BookingId,
+                Room_Id = room.RoomId,
                 StartDate = DateTime.Today.AddDays(4),
                 EndDate = DateTime.Today.AddDays(6)
             };
@@ -344,7 +344,7 @@ namespace HotelsApiTests
 
             // Code rejects an additional RoomBooking which overlaps
             Assert.Null(resp.bookingResponse.BookingReference);
-            var createdRoomBookings = context.RoomBookings.Count(rb => rb.RoomId == room.Id);
+            var createdRoomBookings = context.RoomBookings.Count(rb => rb.Room_Id == room.RoomId);
             Assert.Equal(1, createdRoomBookings); // old only
             Assert.Contains("Room not available", resp.message);
         }
@@ -360,7 +360,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -369,14 +369,14 @@ namespace HotelsApiTests
             context.Customers.Add(customer);
             context.SaveChanges();
 
-            var booking = new Booking { CustomerId = customer.Id, BookingReference = "OLD", TotalPrice = 60.0 };
+            var booking = new Booking { Customer_Id = customer.CustomerId, BookingReference = "OLD", TotalPrice = 60.0 };
             context.Bookings.Add(booking);
             context.SaveChanges();
 
             var existingRoomBooking = new RoomBooking
             {
-                BookingId = booking.Id,
-                RoomId = room.Id,
+                Booking_Id = booking.BookingId,
+                Room_Id = room.RoomId,
                 StartDate = DateTime.Today.AddDays(2),
                 EndDate = DateTime.Today.AddDays(8)
             };
@@ -412,7 +412,7 @@ namespace HotelsApiTests
 
             // Code rejects an additional RoomBooking which overlaps
             Assert.Null(resp.bookingResponse.BookingReference);
-            var createdRoomBookings = context.RoomBookings.Count(rb => rb.RoomId == room.Id);
+            var createdRoomBookings = context.RoomBookings.Count(rb => rb.Room_Id == room.RoomId);
             Assert.Equal(1, createdRoomBookings); // old only
             Assert.Contains("Room not available", resp.message);
         }
@@ -428,7 +428,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 55, PricePerNight = 30.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -437,14 +437,14 @@ namespace HotelsApiTests
             context.Customers.Add(customer);
             context.SaveChanges();
 
-            var booking = new Booking { CustomerId = customer.Id, BookingReference = "OLD", TotalPrice = 60.0 };
+            var booking = new Booking { Customer_Id = customer.CustomerId, BookingReference = "OLD", TotalPrice = 60.0 };
             context.Bookings.Add(booking);
             context.SaveChanges();
 
             var existingRoomBooking = new RoomBooking
             {
-                BookingId = booking.Id,
-                RoomId = room.Id,
+                Booking_Id = booking.BookingId,
+                Room_Id = room.RoomId,
                 StartDate = DateTime.Today.AddDays(3),
                 EndDate = DateTime.Today.AddDays(5)
             };
@@ -480,7 +480,7 @@ namespace HotelsApiTests
 
             // Code rejects an additional RoomBooking which overlaps
             Assert.Null(resp.bookingResponse.BookingReference);
-            var createdRoomBookings = context.RoomBookings.Count(rb => rb.RoomId == room.Id);
+            var createdRoomBookings = context.RoomBookings.Count(rb => rb.Room_Id == room.RoomId);
             Assert.Equal(1, createdRoomBookings); // old only
             Assert.Contains("Room not available", resp.message);
         }

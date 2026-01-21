@@ -4,6 +4,6 @@ namespace DeveloperChallenge
 {
     public interface IRoomBookingService
     {
-        bool RoomBooked(Room room, DateTime startDate, DateTime endDate);
+        Task<bool>  RoomBooked(Room room, DateTime startDate, DateTime endDate);
     }
 }

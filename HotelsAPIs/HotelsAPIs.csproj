@@ -20,6 +20,7 @@
     </PackageReference>
     <PackageReference Include="Sqids" Version="3.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
+    <PackageReference Include="System.Linq.AsyncEnumerable" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>

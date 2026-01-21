@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using DeveloperChallenge;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HotelsApiTests
 {
@@ -16,7 +17,8 @@ namespace HotelsApiTests
 
         private HotelService CreateService(HotelsDbContext context)
         {
-            return new HotelService(context, new RoomBookingService());
+            ILogger<HotelService> logger = new LoggerFactory().CreateLogger<HotelService>();
+            return new HotelService(context, new RoomBookingService(), logger);
         }
 
         [Fact]
@@ -69,7 +71,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 1, PricePerNight = 10.0, Capacity = 2 };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 1, PricePerNight = 10.0, Capacity = 2 };
             context.Rooms.Add(room);
             context.SaveChanges();
 
@@ -106,7 +108,7 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var r1 = new Room { HotelId = hotel.Id, RoomNumber = 10, Capacity = 2, PricePerNight = 30.0, Bookings = new List<RoomBooking>() };
+            var r1 = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 10, Capacity = 2, PricePerNight = 30.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(r1);
             context.SaveChanges();
 
@@ -124,19 +126,19 @@ namespace HotelsApiTests
             var dbName = Guid.NewGuid().ToString();
             using var context = CreateInMemoryContext(dbName);
 
-            var hotel = new Hotel {Name = "BusyHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
+            var hotel = new Hotel { Name = "BusyHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, Bookings = new List<RoomBooking>() };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(room);
             context.SaveChanges();
 
             // Existing overlapping booking (2..4)
             var rb = new RoomBooking
             {
-                RoomId = room.Id,
-                BookingId = 1,
+                Room_Id = room.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(2),
                 EndDate = DateTime.Today.AddDays(4)
             };
@@ -161,15 +163,15 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, Bookings = new List<RoomBooking>() };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(room);
             context.SaveChanges();
 
             // Existing overlapping booking (2..4)
             var rb = new RoomBooking
             {
-                RoomId = room.Id,
-                BookingId = 1,
+                Room_Id = room.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(2),
                 EndDate = DateTime.Today.AddDays(4)
             };
@@ -194,15 +196,15 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, Bookings = new List<RoomBooking>() };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(room);
             context.SaveChanges();
 
             // Existing overlapping booking (2.14)
             var rb = new RoomBooking
             {
-                RoomId = room.Id,
-                BookingId = 1,
+                Room_Id = room.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(2),
                 EndDate = DateTime.Today.AddDays(14)
             };
@@ -227,15 +229,15 @@ namespace HotelsApiTests
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, Bookings = new List<RoomBooking>() };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 20, Capacity = 2, PricePerNight = 50.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(room);
             context.SaveChanges();
 
             // Existing overlapping booking (6,7)
             var rb = new RoomBooking
             {
-                RoomId = room.Id,
-                BookingId = 1,
+                Room_Id = room.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(6),
                 EndDate = DateTime.Today.AddDays(7)
             };
@@ -256,19 +258,19 @@ namespace HotelsApiTests
             var dbName = Guid.NewGuid().ToString();
             using var context = CreateInMemoryContext(dbName);
 
-            var hotel = new Hotel {Name = "EdgeHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
+            var hotel = new Hotel { Name = "EdgeHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var room = new Room { HotelId = hotel.Id, RoomNumber = 30, Capacity = 2, PricePerNight = 60.0, Bookings = new List<RoomBooking>() };
+            var room = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 30, Capacity = 2, PricePerNight = 60.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.Add(room);
             context.SaveChanges();
 
             // Existing booking that ends the day before requested start date begins
             var rb = new RoomBooking
             {
-                RoomId = room.Id,
-                BookingId = 1,
+                Room_Id = room.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(1),
                 EndDate = DateTime.Today.AddDays(2) // checkout == requested start
             };
@@ -289,13 +291,13 @@ namespace HotelsApiTests
             var dbName = Guid.NewGuid().ToString();
             using var context = CreateInMemoryContext(dbName);
 
-            var hotel = new Hotel {Name = "SmallHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
+            var hotel = new Hotel { Name = "SmallHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
             // Two rooms with capacity 1 each -> total 2
-            context.Rooms.Add(new Room { HotelId = hotel.Id, RoomNumber = 1, Capacity = 1, PricePerNight = 10.0, Bookings = new List<RoomBooking>() });
-            context.Rooms.Add(new Room { HotelId = hotel.Id, RoomNumber = 2, Capacity = 1, PricePerNight = 10.0, Bookings = new List<RoomBooking>() });
+            context.Rooms.Add(new Room { Hotel_Id = hotel.HotelId, RoomNumber = 1, Capacity = 1, PricePerNight = 10.0, RoomBookings = new List<RoomBooking>() });
+            context.Rooms.Add(new Room { Hotel_Id = hotel.HotelId, RoomNumber = 2, Capacity = 1, PricePerNight = 10.0, RoomBookings = new List<RoomBooking>() });
             context.SaveChanges();
 
             var service = CreateService(context);
@@ -315,20 +317,20 @@ namespace HotelsApiTests
             var dbName = Guid.NewGuid().ToString();
             using var context = CreateInMemoryContext(dbName);
 
-            var hotel = new Hotel {Name = "PartialHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
+            var hotel = new Hotel { Name = "PartialHotel", Phone = "+44 1234", Address = "12, High Street, Somewhere" };
             context.Hotels.Add(hotel);
             context.SaveChanges();
 
-            var availableRoom = new Room { HotelId = hotel.Id, RoomNumber = 101, Capacity = 2, PricePerNight = 40.0, Bookings = new List<RoomBooking>() };
-            var bookedRoom = new Room { HotelId = hotel.Id, RoomNumber = 102, Capacity = 2, PricePerNight = 45.0, Bookings = new List<RoomBooking>() };
+            var availableRoom = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 101, Capacity = 2, PricePerNight = 40.0, RoomBookings = new List<RoomBooking>() };
+            var bookedRoom = new Room { Hotel_Id = hotel.HotelId, RoomNumber = 102, Capacity = 2, PricePerNight = 45.0, RoomBookings = new List<RoomBooking>() };
             context.Rooms.AddRange(availableRoom, bookedRoom);
             context.SaveChanges();
 
             // BookedRoom has overlapping booking
             var existing = new RoomBooking
             {
-                RoomId = bookedRoom.Id,
-                BookingId = 1,
+                Room_Id = bookedRoom.RoomId,
+                Booking_Id = 1,
                 StartDate = DateTime.Today.AddDays(1),
                 EndDate = DateTime.Today.AddDays(6)
             };
@@ -342,13 +344,13 @@ namespace HotelsApiTests
             Assert.Single(result);
             var returnedHotel = result.First();
             Assert.Single(returnedHotel.Rooms);
-            Assert.Equal(availableRoom.Id, returnedHotel.Rooms.First().Id);
+            Assert.Equal(availableRoom.RoomId, returnedHotel.Rooms.First().RoomId);
 
             // Request overlapping the booked room -> only availableRoom remains (as already tested)
             var result2 = await service.GetAvailableHotelRooms(DateTime.Today.AddDays(4), DateTime.Today.AddDays(5), 1);
             Assert.Single(result2);
             Assert.Single(result2.First().Rooms);
-            Assert.Equal(availableRoom.Id, result2.First().Rooms.First().Id);
+            Assert.Equal(availableRoom.RoomId, result2.First().Rooms.First().RoomId);
         }
     }
 }

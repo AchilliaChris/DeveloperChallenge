@@ -4,8 +4,8 @@ namespace DataAccess
 {
     public class Booking
     {
-        public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public int BookingId { get; set; }
+        public int Customer_Id { get; set; }
         public string BookingReference { get; set; } = string.Empty;
         public double TotalPrice { get; set; } = 0;
         [DefaultValue("false")]

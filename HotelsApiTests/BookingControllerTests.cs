@@ -31,8 +31,8 @@ namespace HotelsApiTests
             var end = DateTime.Today.AddDays(2);
             var hotelEntities = new List<Hotel>
             {
-                new Hotel { Id = 1, Name = "H1", Address = "A", Phone = "P" },
-                new Hotel { Id = 2, Name = "H2", Address = "B", Phone = "Q" }
+                new Hotel { HotelId = 1, Name = "H1", Address = "A", Phone = "P" },
+                new Hotel { HotelId = 2, Name = "H2", Address = "B", Phone = "Q" }
             };
 
             var hotelViewModels = hotelEntities.Select(h => new HotelViewModel { Name = h.Name }).ToList();

@@ -28,8 +28,8 @@ namespace HotelsApiTests
             var name = "Hilton";
             var hotelEntities = new List<Hotel>
             {
-                new Hotel { Id = 1, Name = "Hilton Downtown", Address = "A", Phone = "P" },
-                new Hotel { Id = 2, Name = "Hilton Uptown", Address = "B", Phone = "Q" }
+                new Hotel { HotelId = 1, Name = "Hilton Downtown", Address = "A", Phone = "P" },
+                new Hotel { HotelId = 2, Name = "Hilton Uptown", Address = "B", Phone = "Q" }
             };
 
             var hotelServiceMock = new Mock<IHotelService>();
@@ -149,7 +149,7 @@ namespace HotelsApiTests
         {
             // Arrange
             var name = "some";
-            var hotelEntities = new List<Hotel> { new Hotel { Id = 1, Name = "H" } };
+            var hotelEntities = new List<Hotel> { new Hotel { HotelId = 1, Name = "H" } };
 
             var hotelServiceMock = new Mock<IHotelService>();
             hotelServiceMock

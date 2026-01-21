@@ -2,8 +2,8 @@
 {
     public class GuestBooking
     {
-        public int Id { get; set; }
-        public int RoomBookingId { get; set; }
+        public int GuestBookingId { get; set; }
+        public int RoomBooking_Id { get; set; }
         public int GuestId { get; set; }
         public RoomBooking RoomBooking { get; set; } = null!;
         public Customer Guest { get; set; } = null!;

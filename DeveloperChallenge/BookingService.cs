@@ -72,22 +72,22 @@ namespace DeveloperChallenge
 
             foreach (var room in BookingRequest.Rooms)
             {
-                var roomEntity = context.Rooms.FirstOrDefault(r => r.HotelId == hotel.Id && r.RoomNumber == room.RoomNumber);
-                if(roomEntity == null)
+                var roomEntity = context.Rooms.FirstOrDefault(r => r.Hotel_Id == hotel.HotelId && r.RoomNumber == room.RoomNumber);
+                if (roomEntity == null)
                 {
                     var errorMessage = $"Room not found: Hotel '{room.HotelName}', Room Number '{room.RoomNumber}'";
                     logger.LogError(errorMessage);
                     return (bookingResponse, errorMessage);
                 }
-                if (roomBookingService.RoomBooked(roomEntity, BookingRequest.StartDate, BookingRequest.EndDate))
+                if (await roomBookingService.RoomBooked(roomEntity, BookingRequest.StartDate, BookingRequest.EndDate))
                 {
                     var errorMessage = $"Room not available: Hotel '{room.HotelName}', Room Number '{room.RoomNumber}'";
                     logger.LogError(errorMessage);
                     return (bookingResponse, errorMessage);
                 }
             }
-                /* This assumes the EndDate is the last night of occupation and you actually check out the following morning */
-                int numberOfDays = (BookingRequest.EndDate - BookingRequest.StartDate).Days + 1;
+            /* This assumes the EndDate is the last night of occupation and you actually check out the following morning */
+            int numberOfDays = (BookingRequest.EndDate - BookingRequest.StartDate).Days + 1;
             double totalPrice = 0;
             foreach (var room in BookingRequest.Rooms)
             {
@@ -99,7 +99,7 @@ namespace DeveloperChallenge
             bookingResponse.TotalPrice = totalPrice;
             var booking = new Booking
             {
-                CustomerId = customer.Id,
+                Customer_Id = customer.CustomerId,
                 BookingReference = bookingReference,
                 TotalPrice = totalPrice,
             };
@@ -110,7 +110,7 @@ namespace DeveloperChallenge
             foreach (var room in BookingRequest.Rooms)
             {
 
-                var roomBookingResponse = await BookRoom(room, hotel.Id, booking.Id, BookingRequest.StartDate, BookingRequest.EndDate);
+                var roomBookingResponse = await BookRoom(room, hotel.HotelId, booking.BookingId, BookingRequest.StartDate, BookingRequest.EndDate);
                 if (roomBookingResponse != null)
                 {
                     bookingResponse.RoomBookings.Add(roomBookingResponse);
@@ -124,15 +124,15 @@ namespace DeveloperChallenge
 
         private async Task<RoomBookingResponseViewModel> BookRoom(RoomBookingViewModel room, int hotelId, int bookingId, DateTime StartDate, DateTime EndDate)
         {
-            var roomEntity = context.Rooms.FirstOrDefault(r => r.HotelId == hotelId && r.RoomNumber == room.RoomNumber);
+            var roomEntity = context.Rooms.FirstOrDefault(r => r.Hotel_Id == hotelId && r.RoomNumber == room.RoomNumber);
 
-            if (roomEntity != null )
+            if (roomEntity != null)
             {
 
                 var roomBooking = new RoomBooking
                 {
-                    BookingId = bookingId,
-                    RoomId = roomEntity.Id,
+                    Booking_Id = bookingId,
+                    Room_Id = roomEntity.RoomId,
                     StartDate = StartDate,
                     EndDate = EndDate
                 };
@@ -143,12 +143,13 @@ namespace DeveloperChallenge
                     var guest = GetCustomer(guestViewModel);
                     var guestBooking = new GuestBooking
                     {
-                        RoomBookingId = roomBooking.Id,
-                        GuestId = guest.Id
+                        RoomBooking_Id = roomBooking.RoomBookingId,
+                        GuestId = guest.CustomerId
                     };
                     context.GuestBookings.Add(guestBooking);
 
                 }
+
                 RoomBookingResponseViewModel model = new RoomBookingResponseViewModel
                 {
                     HotelName = room.HotelName,

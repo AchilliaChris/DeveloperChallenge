@@ -23,278 +23,278 @@ namespace DataAccess.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("DataAccess.Booking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("BookingId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
-                    b.Property<string>("BookingReference")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("BookingReference")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Cancelled")
-                        .HasColumnType("bit");
+                b.Property<bool>("Cancelled")
+                    .HasColumnType("bit");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                b.Property<int>("Customer_Id")
+                    .HasColumnType("int");
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
+                b.Property<double>("TotalPrice")
+                    .HasColumnType("float");
 
-                    b.HasKey("Id");
+                b.HasKey("BookingId");
 
-                    b.HasIndex("CustomerId");
+                b.HasIndex("Customer_Id");
 
-                    b.ToTable("Bookings");
-                });
+                b.ToTable("Bookings");
+            });
 
             modelBuilder.Entity("DataAccess.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("CustomerId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Address")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("FirstName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("LastName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("CustomerId");
 
-                    b.ToTable("Customers");
-                });
+                b.ToTable("Customers");
+            });
 
             modelBuilder.Entity("DataAccess.GuestBooking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("GuestBookingId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GuestBookingId"));
 
-                    b.Property<int>("GuestId")
-                        .HasColumnType("int");
+                b.Property<int>("GuestId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("RoomBookingId")
-                        .HasColumnType("int");
+                b.Property<int>("RoomBooking_Id")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("GuestBookingId");
 
-                    b.HasIndex("GuestId");
+                b.HasIndex("GuestId");
 
-                    b.HasIndex("RoomBookingId");
+                b.HasIndex("RoomBooking_Id");
 
-                    b.ToTable("GuestBookings");
-                });
+                b.ToTable("GuestBookings");
+            });
 
             modelBuilder.Entity("DataAccess.Hotel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("HotelId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HotelId"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Address")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Phone")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("HotelId");
 
-                    b.ToTable("Hotels");
-                });
+                b.ToTable("Hotels");
+            });
 
             modelBuilder.Entity("DataAccess.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("PaymentId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                b.Property<double>("Amount")
+                    .HasColumnType("float");
 
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
+                b.Property<int>("Booking_Id")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("PaymentDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("PaymentMethod")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                b.HasKey("PaymentId");
 
-                    b.ToTable("Payments");
-                });
+                b.ToTable("Payments");
+            });
 
             modelBuilder.Entity("DataAccess.Room", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("RoomId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
+                b.Property<int>("Capacity")
+                    .HasColumnType("int");
 
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
+                b.Property<int>("Hotel_Id")
+                    .HasColumnType("int");
 
-                    b.Property<double>("PricePerNight")
-                        .HasColumnType("float");
+                b.Property<double>("PricePerNight")
+                    .HasColumnType("float");
 
-                    b.Property<int>("RoomNumber")
-                        .HasColumnType("int");
+                b.Property<int>("RoomNumber")
+                    .HasColumnType("int");
 
-                    b.Property<int>("RoomTypeId")
-                        .HasColumnType("int");
+                b.Property<int>("RoomTypeId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("RoomId");
 
-                    b.HasIndex("HotelId");
+                b.HasIndex("Hotel_Id");
 
-                    b.ToTable("Rooms");
-                });
+                b.ToTable("Rooms");
+            });
 
             modelBuilder.Entity("DataAccess.RoomBooking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("RoomBookingId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomBookingId"));
 
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
+                b.Property<int>("Booking_Id")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("EndDate")
+                    .HasColumnType("datetime2");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
+                b.Property<int>("Room_Id")
+                    .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("StartDate")
+                    .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                b.HasKey("RoomBookingId");
 
-                    b.HasIndex("BookingId");
+                b.HasIndex("Booking_Id");
 
-                    b.HasIndex("RoomId");
+                b.HasIndex("Room_Id");
 
-                    b.ToTable("RoomBookings");
-                });
+                b.ToTable("RoomBookings");
+            });
 
             modelBuilder.Entity("DataAccess.Booking", b =>
-                {
-                    b.HasOne("DataAccess.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("DataAccess.Customer", "Customer")
+                    .WithMany()
+                    .HasForeignKey("Customer_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Customer");
-                });
+                b.Navigation("Customer");
+            });
 
             modelBuilder.Entity("DataAccess.GuestBooking", b =>
-                {
-                    b.HasOne("DataAccess.Customer", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
-                        .IsRequired();
+            {
+                b.HasOne("DataAccess.Customer", "Guest")
+                    .WithMany()
+                    .HasForeignKey("GuestId")
+                    .OnDelete(DeleteBehavior.ClientNoAction)
+                    .IsRequired();
 
-                    b.HasOne("DataAccess.RoomBooking", "RoomBooking")
-                        .WithMany("GuestBookings")
-                        .HasForeignKey("RoomBookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("DataAccess.RoomBooking", "RoomBooking")
+                    .WithMany("GuestBookings")
+                    .HasForeignKey("RoomBooking_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Guest");
+                b.Navigation("Guest");
 
-                    b.Navigation("RoomBooking");
-                });
+                b.Navigation("RoomBooking");
+            });
 
             modelBuilder.Entity("DataAccess.Room", b =>
-                {
-                    b.HasOne("DataAccess.Hotel", "Hotel")
-                        .WithMany("Rooms")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("DataAccess.Hotel", "Hotel")
+                    .WithMany("Rooms")
+                    .HasForeignKey("Hotel_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Hotel");
-                });
+                b.Navigation("Hotel");
+            });
 
             modelBuilder.Entity("DataAccess.RoomBooking", b =>
-                {
-                    b.HasOne("DataAccess.Booking", "Booking")
-                        .WithMany("RoomBookings")
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("DataAccess.Booking", "Booking")
+                    .WithMany("RoomBookings")
+                    .HasForeignKey("Booking_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("DataAccess.Room", "Room")
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.HasOne("DataAccess.Room", "Room")
+                    .WithMany("RoomBookings")
+                    .HasForeignKey("Room_Id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Booking");
+                b.Navigation("Booking");
 
-                    b.Navigation("Room");
-                });
+                b.Navigation("Room");
+            });
 
             modelBuilder.Entity("DataAccess.Booking", b =>
-                {
-                    b.Navigation("RoomBookings");
-                });
+            {
+                b.Navigation("RoomBookings");
+            });
 
             modelBuilder.Entity("DataAccess.Hotel", b =>
-                {
-                    b.Navigation("Rooms");
-                });
+            {
+                b.Navigation("Rooms");
+            });
 
             modelBuilder.Entity("DataAccess.Room", b =>
-                {
-                    b.Navigation("Bookings");
-                });
+            {
+                b.Navigation("RoomBookings");
+            });
 
             modelBuilder.Entity("DataAccess.RoomBooking", b =>
-                {
-                    b.Navigation("GuestBookings");
-                });
+            {
+                b.Navigation("GuestBookings");
+            });
 #pragma warning restore 612, 618
         }
     }
