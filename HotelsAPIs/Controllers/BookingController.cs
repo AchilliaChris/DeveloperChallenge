@@ -36,7 +36,7 @@ namespace HotelsAPIs.Controllers
         [HttpPost(Name ="BookRoom")]
         public async Task<IActionResult> BookRoom([FromBody] BookingRequestViewModel bookingRequest)
         {
-            if (bookingRequest == null)
+            if (bookingRequest == null || !ModelState.IsValid)
             {
                 var errorMessage = "There was no Booking Request supplied to the booking service.";
                 return BadRequest(errorMessage);
