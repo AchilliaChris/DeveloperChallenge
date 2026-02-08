@@ -22,7 +22,7 @@ namespace DeveloperChallenge.Validators
 
             if (currentValue < comparisonValue)
             {
-                return new ValidationResult(ErrorMessage = "End date must be later than start date");
+                return new ValidationResult(ErrorMessage = "End date must be later than or equal to start date");
             }
 
             return ValidationResult.Success;

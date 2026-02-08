@@ -136,7 +136,7 @@ namespace HotelsApiTests
 
             Assert.False(ok);
             Assert.Single(results);
-            Assert.Equal("End date must be later than start date", results[0].ErrorMessage);
+            Assert.Equal("End date must be later than or equal to start date", results[0].ErrorMessage);
         }
 
         [Fact]
