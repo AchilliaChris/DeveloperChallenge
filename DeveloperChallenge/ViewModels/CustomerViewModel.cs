@@ -10,8 +10,8 @@ namespace DeveloperChallenge.ViewModels
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; } = string.Empty;
         [Required]
-        [Phone]                 
-        [RegularExpression(@"^\+?[1-9]\d{1,14}$")]
+        [Phone]
+        [RegularExpression(@"^\+?[0-9\s\-\(\)]{7,}$", ErrorMessage = "Invalid phone number format.")]
         public string Phone { get; set; } = string.Empty;
     }
 }
